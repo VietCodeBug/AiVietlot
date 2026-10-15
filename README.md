@@ -8,7 +8,11 @@ Chạy giao diện: `npm --prefix web ci`, cấu hình `web/.env.local` theo `we
 
 **Đã nhập dữ liệu thật vào Supabase:** audit ngày 14/10/2026 xác nhận 1.575 kỳ từ #00001 ngày 20/07/2016 đến #01575 ngày 14/10/2026, không thiếu mã kỳ, không có bản ghi sai hoặc mâu thuẫn. Đây là ảnh chụp nghiệm thu tại thời điểm kiểm tra; CLI luôn đọc phạm vi hiện tại từ DB và nguồn, không hardcode kỳ cuối.
 
-Bằng chứng, mức xác minh nguồn và trạng thái triển khai nằm trong [docs/acceptance.md](docs/acceptance.md). Repository GitHub và workflow cloud chưa có URL đã xác minh; xem các điều kiện còn thiếu ở phần triển khai.
+Bằng chứng collector và mức xác minh nguồn nằm trong [docs/acceptance.md](docs/acceptance.md).
+Giao diện production: **https://mega-lab-iota.vercel.app**. Mã nguồn đã push lên
+[VietCodeBug/AiVietlot](https://github.com/VietCodeBug/AiVietlot); Vercel Git integration
+đã nối với `main`, Web checks và Collector checks đã chạy thành công. Collector cron
+vẫn cần cấu hình GitHub Actions Secrets mới theo phần triển khai bên dưới.
 
 ## Nguồn và mức xác minh
 

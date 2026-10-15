@@ -20,3 +20,7 @@ node_modules/
 .vercel/
 test-results/
 playwright-report/
+
+.vercel
+.env*
+!.env.example

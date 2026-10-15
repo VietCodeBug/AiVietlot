@@ -23,7 +23,7 @@ Ngày kiểm tra: 15/10/2026, giờ Việt Nam.
 - 12 kiểm thử TypeScript cho xác suất, tần suất theo phạm vi, seed và dãy không trùng.
 - 64 kiểm thử Python đạt, gồm kiểm tra các trọng số tại kỳ t chỉ dùng dữ liệu trước t.
 - Lint, typecheck và production build đã chạy thành công.
-- Playwright với Edge headless: 38 kiểm tra đạt trên dữ liệu thật, không mock nguồn.
+- Playwright với Edge headless: 39 kiểm tra đạt trên dữ liệu thật, không mock nguồn.
   Sáu route ở desktop 1440px và điện thoại 390px/360px không tràn toàn trang;
   điều hướng chạm, phân trang, lọc số, chọn phạm vi, tạo/lưu dãy, CSV, dark mode,
   đọc báo cáo thật và reload offline đều đạt. Không có uncaught browser error.
@@ -37,5 +37,11 @@ bundle; secret key và mật khẩu PostgreSQL ở `.env` backend, không có tr
 Thí nghiệm lưu trong trình duyệt chưa đăng ký lên server, chưa có khóa dự đoán theo
 kỳ, chưa gửi email. Các kết quả thống kê/backtest chưa chứng minh lợi thế dự báo.
 
-Vercel đang được liên kết bằng CLI theo yêu cầu. Chỉ ghi URL production và trạng
-thái thành công vào tài liệu sau khi deployment thật hoàn tất.
+Đã deploy và nối GitHub qua Vercel CLI trong CMD. Production đã READY:
+**https://mega-lab-iota.vercel.app**. Chính URL này được kiểm tra trình duyệt
+trên dữ liệu thật, gồm reload offline và sáu route desktop/mobile. Project nằm trên
+gói Hobby hiện có; không thay đổi billing.
+
+Sổ thí nghiệm mới giữ nguyên cấu hình, seed, phiên bản thuật toán, mã kỳ đầu/cuối,
+số mẫu và SHA-256 dữ liệu đầu vào tại lúc tạo. Làm mới dữ liệu sau đó không đổi
+nguồn huấn luyện đã gắn với bộ dãy cũ. Không tự xóa các thí nghiệm cũ khi lưu bộ mới.

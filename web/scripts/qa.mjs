@@ -2,7 +2,7 @@ import { chromium } from '@playwright/test'
 import { mkdir, writeFile } from 'node:fs/promises'
 import { loadEnv } from 'vite'
 
-const base = process.env.QA_BASE_URL ?? 'http://127.0.0.1:4173'
+const base = process.argv[2] ?? process.env.QA_BASE_URL ?? 'http://127.0.0.1:4173'
 const env = loadEnv('production', process.cwd(), 'VITE_')
 const response = await fetch(`${env.VITE_SUPABASE_URL}/rest/v1/mega645_draws?select=draw_id&order=draw_id.desc&limit=1`, { headers: { apikey: env.VITE_SUPABASE_PUBLISHABLE_KEY } })
 if (!response.ok) throw new Error('Cannot verify live source for browser QA')
@@ -56,6 +56,8 @@ try {
   check(JSON.stringify(originalTickets) === JSON.stringify(await page.locator('.generated-list .balls').allTextContents()), 'Same generator seed reproduces tickets')
   await page.getByRole('button', { name: 'Lưu thí nghiệm' }).click()
   await page.locator('.notebook-entry').waitFor()
+  const saved = await page.evaluate(() => JSON.parse(localStorage.getItem('mega-lab-notebook'))[0])
+  check(/^[a-f0-9]{64}$/.test(saved.inputHash) && saved.lastDraw === latest && saved.inputCount === 100 && saved.halfLife === 30 && saved.smoothing === 1, 'Notebook preserves the generation input hash, range and full configuration')
   await page.reload()
   await page.locator('.notebook-entry').waitFor()
   check(await page.locator('.notebook-entry').count() > 0, 'Notebook survives reload and stays labelled as device storage')

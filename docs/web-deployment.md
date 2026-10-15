@@ -44,6 +44,35 @@ Giữ riêng link GitHub commit, lần chạy Web checks, Vercel deployment và 
 
 ## Trạng thái tài khoản đã kiểm tra ngày 15/10/2026
 
-Git Credential Manager có tài khoản GitHub `VietCodeBug`. Repository public `VietCodeBug/AiVietlot` tồn tại, nhưng tại thời điểm kiểm tra API báo repository rỗng; bản local cũng chưa có commit hoặc remote. Vì vậy trạng thái đó chưa phải một lần push mã thành công.
+Đã push bản giao diện đầy đủ lên [VietCodeBug/AiVietlot](https://github.com/VietCodeBug/AiVietlot). Commit triển khai đầu tiên `d89d09a` đã đạt [Web checks](https://github.com/VietCodeBug/AiVietlot/actions/runs/38661586653) và [Collector checks](https://github.com/VietCodeBug/AiVietlot/actions/runs/38661586639) trên GitHub.
 
-Vercel CLI 64.1.0 kiểm tra bằng `whoami` báo **Logged out**. Chưa tạo project, chưa kết nối GitHub với Vercel và chưa có deployment/URL Vercel được xác minh. Cần đăng nhập tài khoản Vercel có quyền project để liên kết và deploy; không tạo URL tạm hoặc tự đổi billing.
+Đã đăng nhập **Vercel CLI 64.1.0 trong CMD** với tài khoản `phamhoainam1709`, tạo project `mega-lab` trong scope Hobby `phamhoainam1709s-projects`, đặt Root Directory=`web`, Vite, Node 24.x. CLI đã xác nhận kết nối repo GitHub bằng `vercel git connect`.
+
+- Production: **https://mega-lab-iota.vercel.app**.
+- [Deployment đầu tiên](https://vercel.com/phamhoainam1709s-projects/mega-lab/6hCPhC3PTKKQw5vp6RbvMZqdnNz7) đã READY; URL production trả HTTP 200 không cần đăng nhập Vercel.
+- Hai cấu hình công khai `VITE_SUPABASE_URL` và `VITE_SUPABASE_PUBLISHABLE_KEY` đã đặt qua stdin cho production/preview/development. Không đưa secret backend lên Vercel.
+- Playwright kiểm tra chính production, gồm dữ liệu Supabase thật, báo cáo phân tích thật, điện thoại 360/390px và reload offline; báo cáo tại `artifacts/web-qa/report.json`.
+- Không bật dịch vụ trả phí, nâng gói hoặc thay đổi billing.
+
+## Lệnh CMD sau khi đã liên kết
+
+```bat
+npx --yes vercel@64.1.0 whoami
+npx --yes vercel@64.1.0 project inspect mega-lab --scope phamhoainam1709s-projects
+git push origin main
+```
+
+Push lên `main` sẽ kích hoạt Git integration của Vercel. Nếu cần deploy thủ công từ máy này:
+
+```bat
+.venv\Scripts\python.exe scripts\deploy_vercel.py
+```
+
+Helper dùng CMD Vercel CLI và một bản copy sạch từ commit HEAD, tránh upload virtualenv,
+test temp, `.env` và artifacts local. Nó giữ Root Directory=`web`, chỉ copy project ID từ
+`.vercel/project.json`, dùng phiên CLI đã đăng nhập. `scripts/configure_vercel_public_env.py`
+chỉ gửi hai biến publishable từ `web/.env.local` qua stdin, không gửi secret backend.
+
+Collector cron cần GitHub Actions Secrets riêng. Frontend deploy thành công không tự
+cấu hình secrets nhập dữ liệu. Theo yêu cầu ban đầu, thay secret đã xuất hiện trong chat
+trước khi đưa lên runner cloud; không dùng secret đó trong mã public hoặc `VITE_*`.
