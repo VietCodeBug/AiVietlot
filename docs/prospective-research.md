@@ -13,3 +13,11 @@ Mỗi vé có một dãy đối chứng ngẫu nhiên được server cố đị
 Kiểm chứng database: `python collector/scripts/verify_research.py` chạy fixture trong transaction rồi rollback toàn bộ; kiểm tra quyền sở hữu, khóa thời gian, hash, chống backdate, hit/miss, idempotency và lịch sử hiệu chỉnh. `python scripts/verify_research_browser.py` tạo tài khoản Auth tạm đã xác nhận bằng Admin API (không gửi email), kiểm tra đăng nhập/lưu vé/đánh dấu mua qua UI rồi xóa tài khoản và các vé thử trong `finally`. Không tạo kỳ xổ số giả để giữ trong database thật. Báo cáo tại `artifacts/research-database-verification.json` và `artifacts/web-qa/research-report.json`.
 
 Realtime và polling 60 giây cập nhật sổ khi đang mở. Tự đối chiếu chạy ở database, không cần giữ tab mở. Collector chạy cloud phụ thuộc GitHub Actions Secrets và workflow sync; triển khai giao diện không tự bật secrets. Chưa có gửi thông báo email kết quả.
+
+## Vé mua trước khi dùng sổ
+
+Migration `004_purchase_reports.sql` thêm sổ **Vé đã mua · khai báo bổ sung**. Ngày mua tự khai báo và `recorded_at` do server ghi là hai trường riêng; các vé này không được đưa vào nhóm dự đoán tiến cứu hoặc baseline để tránh ghi lùi dữ liệu nghiên cứu. Người dùng chọn đúng mã kỳ trên vé; kết quả được nối theo chính mã kỳ và tự cập nhật khi collector có dữ liệu.
+
+Nếu yêu cầu nhập vé từ cuộc trò chuyện chưa xác định tài khoản, quản trị nhập bản ghi chưa có chủ và trao link nhận riêng có UUID ngẫu nhiên. Chỉ tài khoản đã xác nhận email mới được nhận, một lần; tài khoản khác không đọc được bản ghi và không thể nhận lại. Không commit link nhận hoặc email người dùng vào repo. `verify_purchase_reports.py` kiểm tra quyền sở hữu, idempotency, ngày mua, số hợp lệ và cách ly thống kê trong transaction rollback.
+
+Lịch sử có lọc nhanh kỳ mới nhất/ngày có kết quả mới nhất và thứ tự ngày tăng/giảm, áp dụng cả trên database và dữ liệu offline. Hai nút mới nhất bỏ bộ lọc số cũ để không nhầm kết quả mới nhất có một số cụ thể với kết quả mới nhất toàn bộ dữ liệu. Đăng nhập kiểm tra email đầy đủ và giải thích các mã Auth lỗi tại form; người dùng cần tạo tài khoản Mega Lab riêng trước lần đăng nhập đầu.

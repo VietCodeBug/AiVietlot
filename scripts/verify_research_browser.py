@@ -20,5 +20,8 @@ finally:
     remaining=requests.get(url+'/rest/v1/research_predictions',headers=headers,params={'select':'id','user_id':'eq.'+user},timeout=30)
     remaining.raise_for_status()
     assert remaining.json()==[], 'Disposable research records were not cleaned up'
+    remaining_reports=requests.get(url+'/rest/v1/research_purchase_reports',headers=headers,params={'select':'id','user_id':'eq.'+user},timeout=30)
+    remaining_reports.raise_for_status()
+    assert remaining_reports.json()==[], 'Disposable supplementary purchases were not cleaned up'
     print(json.dumps({'disposable_auth_user_deleted':True,'owned_test_tickets_cascaded':True}))
 sys.exit(result.returncode)

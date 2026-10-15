@@ -60,8 +60,8 @@ export async function loadDraws(): Promise<DataSnapshot> {
   return result
 }
 
-export async function loadHistory(page: number, filter: {drawId: string; number: string; from: string; to: string}, signal?: AbortSignal) {
-  const params = new URLSearchParams({ select: fields, order: 'draw_id.desc', limit: '15', offset: String(page * 15) })
+export async function loadHistory(page: number, filter: {drawId: string; number: string; from: string; to: string}, signal?: AbortSignal, sort: 'desc'|'asc'='desc') {
+  const params = new URLSearchParams({ select: fields, order: `draw_id.${sort}`, limit: '15', offset: String(page * 15) })
   if (filter.drawId) params.set('draw_id', `eq.${Number(filter.drawId)}`)
   if (filter.number) params.set('or', `(${[1, 2, 3, 4, 5, 6].map(i => `n${i}.eq.${Number(filter.number)}`).join(',')})`)
   if (filter.from) params.append('draw_date', `gte.${filter.from}`)

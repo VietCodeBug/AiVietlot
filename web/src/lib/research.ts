@@ -46,6 +46,35 @@ export function readResearchDraft(): ResearchDraft|null {
 }
 export function clearResearchDraft() { sessionStorage.removeItem(DRAFT_KEY) }
 
+export interface PurchaseReport {
+  id:string;target_draw_id:number|null;numbers:number[];reported_purchase_date:string;recorded_at:string;note:string;
+  draw_date:string|null;actual_numbers:number[]|null;matched_numbers:number[]|null;source_url:string|null
+}
+export async function getPurchaseReports():Promise<PurchaseReport[]> {
+  if(!researchClient)throw new Error('Chưa cấu hình kết nối.')
+  const {data,error}=await researchClient.rpc('get_purchase_reports')
+  if(error)throw new Error(error.message)
+  return data??[]
+}
+export async function addPurchaseReport(drawId:number,values:number[],purchaseDate:string,note:string) {
+  if(!researchClient)throw new Error('Chưa cấu hình kết nối.')
+  const {error}=await researchClient.rpc('add_purchase_report',{p_target_draw_id:drawId,p_numbers:values,p_purchase_date:purchaseDate,p_note:note})
+  if(error)throw new Error(error.message)
+}
+const CLAIM_KEY='mega-lab-purchase-claim'
+export function readPurchaseClaim():string|null {
+  const token=new URL(location.href).searchParams.get('nhan-ve')??sessionStorage.getItem(CLAIM_KEY)
+  if(!token||!/^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i.test(token))return null
+  sessionStorage.setItem(CLAIM_KEY,token);return token
+}
+export async function claimPurchaseReport(id:string) {
+  if(!researchClient)throw new Error('Chưa cấu hình kết nối.')
+  const {error}=await researchClient.rpc('claim_purchase_report',{p_report_id:id})
+  if(error)throw new Error(error.message)
+  sessionStorage.removeItem(CLAIM_KEY)
+  const url=new URL(location.href);url.searchParams.delete('nhan-ve');history.replaceState({},'',url.pathname+url.search)
+}
+
 export async function getResearchTarget(): Promise<ResearchTarget> {
   if (!researchClient) throw new Error('Chưa cấu hình Supabase.')
   const {data,error}=await researchClient.rpc('get_research_target')
