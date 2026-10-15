@@ -16,3 +16,7 @@ minhngoc_probe.html
 .test-tmp*/
 build/
 dist/
+node_modules/
+.vercel/
+test-results/
+playwright-report/
