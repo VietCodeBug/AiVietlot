@@ -71,6 +71,9 @@ jobs:
       - name: Audit database after ingestion
         if: always() && steps.install.outcome == 'success'
         run: mega-collector --backend supabase audit --check-source --output artifacts/audit.json
+      - name: Publish reproducible walk-forward analysis
+        if: success()
+        run: python collector/scripts/analyze.py
       - name: Keep audit and checkpoint evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2

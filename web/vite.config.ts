@@ -22,7 +22,7 @@ export default defineConfig({
       ],
     },
     workbox: {
-      globPatterns: ['**/*.{js,css,html,svg,png,woff2}'],
+      globPatterns: ['**/*.{js,css,html,svg,png,woff2,ttf}'],
       navigateFallback: '/index.html',
       cleanupOutdatedCaches: true,
       // API responses, authentication and credentials never enter the SW cache.

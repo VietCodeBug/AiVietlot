@@ -1,6 +1,10 @@
-# Vietlott Mega 6/45 Collector
+# Mega Lab — Dữ liệu và phòng thí nghiệm Mega 6/45
 
-Tool Python 3.12 thu thập lịch sử Mega 6/45, lưu vào Supabase hoặc SQLite, lấy bù kỳ thiếu, kiểm tra dữ liệu và xuất CSV cho đồ án thống kê, xác suất. Phạm vi hiện tại là collector, database và cập nhật tự động. Dashboard, PWA, mô hình dự đoán và email chưa thuộc bản này.
+Ứng dụng PWA tiếng Việt trong `web/` dùng React, TypeScript, Vite và Tailwind, đọc kết quả thật từ Supabase. Tool Python 3.12 thu thập lịch sử, lấy bù kỳ thiếu, audit, xuất CSV và chạy phân tích walk-forward ở collector/runner.
+
+Giao diện có tổng quan, lịch sử phân trang ở database, thống kê theo phạm vi 30/100/300/toàn bộ kỳ, xác suất lý thuyết chính xác, ba thuật toán tạo dãy có seed, đối chiếu lịch sử, sổ thí nghiệm local và báo cáo backtest trên server. Hỗ trợ sáng/tối, cài PWA, dữ liệu công khai ngoại tuyến và reload các route. Sổ thí nghiệm local chưa phải dự đoán được đăng ký/khóa trước kỳ quay trên server; gửi email và theo dõi dự đoán tiến cứu chưa được triển khai.
+
+Chạy giao diện: `npm --prefix web ci`, cấu hình `web/.env.local` theo `web/.env.example`, rồi `npm --prefix web run dev`. Chỉ dùng publishable key trong `VITE_*`. Hướng dẫn Vercel: [docs/web-deployment.md](docs/web-deployment.md). Nghiệm thu giao diện: [docs/web-acceptance.md](docs/web-acceptance.md).
 
 **Đã nhập dữ liệu thật vào Supabase:** audit ngày 14/10/2026 xác nhận 1.575 kỳ từ #00001 ngày 20/07/2016 đến #01575 ngày 14/10/2026, không thiếu mã kỳ, không có bản ghi sai hoặc mâu thuẫn. Đây là ảnh chụp nghiệm thu tại thời điểm kiểm tra; CLI luôn đọc phạm vi hiện tại từ DB và nguồn, không hardcode kỳ cuối.
 

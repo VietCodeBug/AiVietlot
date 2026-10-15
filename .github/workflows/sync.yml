@@ -51,6 +51,8 @@ jobs:
           PY
       - name: Sync new and missing draws
         run: mega-collector --backend supabase sync
+      - name: Publish reproducible walk-forward analysis
+        run: python collector/scripts/analyze.py
       - name: Audit database after ingestion
         if: always() && steps.install.outcome == 'success'
         run: mega-collector --backend supabase audit --check-source --output artifacts/audit.json
