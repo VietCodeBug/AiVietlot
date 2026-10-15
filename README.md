@@ -2,7 +2,7 @@
 
 Ứng dụng PWA tiếng Việt trong `web/` dùng React, TypeScript, Vite và Tailwind, đọc kết quả thật từ Supabase. Tool Python 3.12 thu thập lịch sử, lấy bù kỳ thiếu, audit, xuất CSV và chạy phân tích walk-forward ở collector/runner.
 
-Giao diện có tổng quan, lịch sử phân trang ở database, thống kê theo phạm vi 30/100/300/toàn bộ kỳ, xác suất lý thuyết chính xác, ba thuật toán tạo dãy có seed, đối chiếu lịch sử, sổ thí nghiệm local và báo cáo backtest trên server. Hỗ trợ sáng/tối, cài PWA, dữ liệu công khai ngoại tuyến và reload các route. Sổ thí nghiệm local chưa phải dự đoán được đăng ký/khóa trước kỳ quay trên server; gửi email và theo dõi dự đoán tiến cứu chưa được triển khai.
+Giao diện có tổng quan, lịch sử phân trang ở database, thống kê theo phạm vi 30/100/300/toàn bộ kỳ, xác suất lý thuyết chính xác, ba thuật toán tạo dãy có seed, đối chiếu lịch sử, sổ thí nghiệm local và báo cáo backtest trên server. Trang **[Theo dõi](https://mega-lab-iota.vercel.app/theo-doi)** lưu vé theo tài khoản cho kỳ sắp quay, dấu đã mua, khóa trước giờ chốt, tự đối chiếu trúng/trượt và so sánh đối chứng ngẫu nhiên. Xem [quy tắc và kiểm chứng](docs/prospective-research.md). Hỗ trợ sáng/tối, cài PWA, dữ liệu công khai ngoại tuyến và reload các route. Chưa gửi email thông báo kết quả.
 
 Chạy giao diện: `npm --prefix web ci`, cấu hình `web/.env.local` theo `web/.env.example`, rồi `npm --prefix web run dev`. Chỉ dùng publishable key trong `VITE_*`. Hướng dẫn Vercel: [docs/web-deployment.md](docs/web-deployment.md). Nghiệm thu giao diện: [docs/web-acceptance.md](docs/web-acceptance.md).
 
@@ -171,7 +171,7 @@ Backfill chỉ chạy thủ công. Hai workflow nhập dùng concurrency chung, 
 
 GitHub cron có thể chạy chậm hoặc bỏ lỡ; sync lấy bù theo dữ liệu DB. Sau khi triển khai cloud, collector chạy khi máy cá nhân tắt. Không kích hoạt dịch vụ trả phí hoặc thay đổi billing.
 
-**Điều kiện cloud còn thiếu:** máy hiện chưa có `gh` trong PATH/thư mục cài phổ biến, chưa xác minh GitHub authentication và chưa có repository/remote. Cần credentials đã đổi trước cloud. Vì vậy chưa có link repository hoặc workflow đã chạy để bàn giao. Hướng dẫn cài `gh`, đăng nhập, cấu hình secrets và nghiệm thu tại [docs/automation.md](docs/automation.md).
+**Cloud đã hoạt động:** repository [VietCodeBug/AiVietlot](https://github.com/VietCodeBug/AiVietlot) đã kết nối Vercel. GitHub Actions Secrets được cấu hình theo xác nhận của người dùng cho phép key hiện tại; [lần sync thực tế ngày 15/10/2026](https://github.com/VietCodeBug/AiVietlot/actions/runs/38663883094) đã thành công cả sync, phân tích và audit. Lịch thu thập tiếp tục chạy khi máy local tắt. Hướng dẫn tại [docs/automation.md](docs/automation.md).
 
 ## Kiểm thử và xử lý lỗi
 

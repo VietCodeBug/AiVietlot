@@ -73,6 +73,7 @@ test temp, `.env` và artifacts local. Nó giữ Root Directory=`web`, chỉ cop
 `.vercel/project.json`, dùng phiên CLI đã đăng nhập. `scripts/configure_vercel_public_env.py`
 chỉ gửi hai biến publishable từ `web/.env.local` qua stdin, không gửi secret backend.
 
-Collector cron cần GitHub Actions Secrets riêng. Frontend deploy thành công không tự
-cấu hình secrets nhập dữ liệu. Theo yêu cầu ban đầu, thay secret đã xuất hiện trong chat
-trước khi đưa lên runner cloud; không dùng secret đó trong mã public hoặc `VITE_*`.
+Collector cron dùng GitHub Actions Secrets riêng. Ngày 15/10/2026, người dùng đã xác nhận
+cho phép dùng key hiện tại để bật cloud sync; đã cấu hình hai Secrets SUPABASE_URL và
+SUPABASE_SECRET_KEY bằng mã hóa public key của GitHub, không đưa vào repo/VITE.
+Luồng nghiên cứu theo kỳ và các phép kiểm tra được mô tả tại [prospective-research.md](prospective-research.md).
