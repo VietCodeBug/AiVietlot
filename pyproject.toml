@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools==80.9.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mega645-collector"
+version = "1.0.0"
+description = "Verified-source Mega 6/45 history collector"
+requires-python = ">=3.12"
+dependencies = [
+  "requests==2.32.5",
+  "beautifulsoup4==4.13.5",
+  "python-dotenv==1.1.1",
+  "psycopg[binary]==3.2.10",
+  "tzdata==2025.2",
+]
+
+[project.optional-dependencies]
+test = ["pytest==8.4.2"]
+
+[project.scripts]
+mega-collector = "mega_collector.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["collector"]
+include = ["mega_collector*"]
+namespaces = false
+
+[tool.pytest.ini_options]
+testpaths = ["collector/tests"]
+pythonpath = ["collector"]
